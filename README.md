@@ -1,3 +1,10 @@
+## Explanation of Changes Made to Scraper Function
+
+The original scraper was designed to extract the main headline from the homepage by searching for an <a> element with the class "frontpage-link". In this modified version, the scraper now extracts the preview text found directly beneath the headline article. This text offers a very brief summary of the contents of the article. This change was made to provide more context about the featured story on the homepage rather than just the headline.
+
+The scraper searches for the main carousel container using the <div> element with the class "frontpage-carousel". Within the carousel,it then looks for a nested <div> with the class "article-preview". Finally, it extracts the text content from the <p> tag within this preview div. At each step, if any elements are missing, the function returns an empty string. This ensures the scraper handles unexpected changes in the HTML structure without breaking.
+
+
 # Basic Git Scraper Template
 
 This template provides a starting point for **git scraping**—the technique of scraping data from websites and automatically committing it to a Git repository using workflows, [coined by Simon Willison](https://simonwillison.net/2020/Oct/9/git-scraping/).
