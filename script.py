@@ -15,10 +15,10 @@ import loguru
 
 def scrape_data_point():
     """
-    Scrapes the main headline from The Daily Pennsylvanian home page.
+    Scrapes the preview text of the main carousel article from The Daily Pennsylvanian home page.
 
     Returns:
-        str: The headline text if found, otherwise an empty string.
+        str: The preview text if found, otherwise an empty string.
     """
     headers = {
     "User-Agent": "cis3500-scraper"
@@ -28,9 +28,24 @@ def scrape_data_point():
     loguru.logger.info(f"Request status code: {req.status_code}")
 
     if req.ok:
+        '''
         soup = bs4.BeautifulSoup(req.text, "html.parser")
         target_element = soup.find("a", class_="frontpage-link")
         data_point = "" if target_element is None else target_element.text
+        loguru.logger.info(f"Data point: {data_point}")
+        return data_point
+        '''
+        soup = bs4.BeautifulSoup(req.text, "html.parser")
+        carousel = soup.find("div", class_="frontpage-carousel")
+        if carousel:
+            preview_div = carousel.find("div", class_="article-preview")
+            if preview_div:
+                preview_paragraph = preview_div.find("p")
+                data_point = "" if preview_paragraph is None else preview_paragraph.get_text(strip=True)
+            else:
+                data_point = ""
+        else:
+            data_point = ""
         loguru.logger.info(f"Data point: {data_point}")
         return data_point
 
